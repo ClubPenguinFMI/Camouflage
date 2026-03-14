@@ -31,6 +31,7 @@ export default function TabsSwitcher({
           <Tab key={index} label={item.label} />
         ))}
       </Tabs>
+
       <Card elevation={0}>
         <Box className="overflow-hidden">{items[value]?.content}</Box>
       </Card>

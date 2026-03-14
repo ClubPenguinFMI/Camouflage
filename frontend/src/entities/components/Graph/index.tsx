@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { Alert, Box, CardContent, CircularProgress } from "@mui/material";
-import type { GraphEdge, GraphNode } from "../../../sdk/interfaces";
-import { graph as graphSdk } from "../../../sdk";
+import type { Dependency, GraphEdge, GraphNode } from "../../../sdk/interfaces";
+import { graph as graphSdk, assets as assetsSdk } from "../../../sdk";
 import GraphVisualization from "./components/GraphVisualization";
 
 const Graph = () => {
   const [nodes, setNodes] = useState<GraphNode[]>([]);
   const [edges, setEdges] = useState<GraphEdge[]>([]);
+  const [dependencies, setDependencies] = useState<Dependency[]>([]);
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -16,13 +18,15 @@ const Graph = () => {
         setLoading(true);
         setError("");
 
-        const [notesData, edgesData] = await Promise.all([
+        const [notesData, edgesData, dependenciesData] = await Promise.all([
           graphSdk.getNotes(),
           graphSdk.getEdges(),
+          assetsSdk.getAssetDependencies(),
         ]);
 
         setNodes(notesData);
         setEdges(edgesData);
+        setDependencies(dependenciesData);
       } catch (err) {
         setError(err instanceof Error ? err.message : "Something went wrong");
       } finally {
@@ -55,7 +59,11 @@ const Graph = () => {
         )}
 
         {!loading && !error && (
-          <GraphVisualization nodes={nodes} edges={edges} />
+          <GraphVisualization
+            nodes={nodes}
+            edges={edges}
+            dependencies={dependencies}
+          />
         )}
       </Box>
     </CardContent>

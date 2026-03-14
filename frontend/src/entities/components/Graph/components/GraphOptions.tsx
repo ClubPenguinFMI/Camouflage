@@ -14,7 +14,7 @@ const GraphOptions = ({
   const handleZoomOut = () => setZoom((prev) => Math.max(prev - 0.15, 0.2));
   const handleReset = () => setZoom(DEFAULT_ZOOM);
   return (
-    <Stack direction="row" spacing={1} className="justify-between">
+    <Stack direction="row" spacing={1} className="justify-between px-2 pt-2">
       <IconButton onClick={handleZoomOut} size="small">
         <RemoveIcon />
       </IconButton>

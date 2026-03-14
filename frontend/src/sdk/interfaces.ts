@@ -33,3 +33,9 @@ export interface GraphData {
   nodes: GraphNode[];
   edges: Relationship[];
 }
+
+export interface Dependency {
+  id: string;
+  name: string;
+  percentage: number;
+}
