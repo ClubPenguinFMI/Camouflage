@@ -18,14 +18,13 @@ const Graph = () => {
         setLoading(true);
         setError("");
 
-        const [notesData, edgesData, dependenciesData] = await Promise.all([
-          graphSdk.getNotes(),
-          graphSdk.getEdges(),
+        const [graphData, dependenciesData] = await Promise.all([
+          graphSdk.getGraphData(),
           assetsSdk.getAssetDependencies(),
         ]);
 
-        setNodes(notesData);
-        setEdges(edgesData);
+        setNodes(graphData.nodes);
+        setEdges(graphData.edges);
         setDependencies(dependenciesData);
       } catch (err) {
         setError(err instanceof Error ? err.message : "Something went wrong");

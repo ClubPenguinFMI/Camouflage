@@ -7,8 +7,8 @@ export interface AssetChartItem {
 
 export function mapAssetsToPieChartData(assets: Asset[]): AssetChartItem[] {
   return assets.map((asset) => ({
-    id: asset.id,
-    label: asset.name,
-    value: asset.percentage,
+    id: asset.ticker,
+    label: asset.ticker,
+    value: asset.valueInvested,
   }));
 }

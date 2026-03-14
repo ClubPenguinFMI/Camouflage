@@ -32,7 +32,7 @@ const DependencyItem = ({
       className="py-2 flex items-center justify-between cursor-pointer"
       onClick={() => focusDependency(dependency.id)}
     >
-      <Typography variant="body2">{dependency.name}</Typography>
+      <Typography variant="body2">{dependency.ticker}</Typography>
       <Typography variant="body1" fontWeight="bold" color={percentageColor}>
         {dependency.percentage} %
       </Typography>

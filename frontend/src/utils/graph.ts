@@ -25,7 +25,7 @@ export function buildGraphData(
   return {
     nodes: nodes.map((node) => ({
       id: node.id,
-      caption: node.label,
+      caption: node.name,
       size: 32,
     })),
     edges: edges.map((edge) => ({

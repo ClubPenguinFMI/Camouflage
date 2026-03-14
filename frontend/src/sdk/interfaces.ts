@@ -1,18 +1,10 @@
 import type { Relationship } from "@neo4j-nvl/base/dist/types/types/graph-element";
 
 export interface Asset {
-  id: string;
-  name: string;
+  ticker: string;
+  valueInvested: number;
   percentage: number;
-  value?: number;
-  category?: string;
-}
-
-export interface GraphNode {
-  id: string;
-  label: string;
-  type?: string;
-  description?: string;
+  quantity: number;
 }
 
 export enum EdgeType {
@@ -29,6 +21,15 @@ export interface GraphEdge {
   type?: EdgeType;
 }
 
+export interface GraphNode {
+  id: string;
+  name: string;
+  properties: {
+    ticker: string;
+    name: string;
+    sector: string;
+  };
+}
 export interface GraphData {
   nodes: GraphNode[];
   edges: Relationship[];
@@ -36,6 +37,6 @@ export interface GraphData {
 
 export interface Dependency {
   id: string;
-  name: string;
+  ticker: string;
   percentage: number;
 }
