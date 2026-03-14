@@ -11,8 +11,8 @@ export const assets = {
     return Promise.resolve([
       { ticker: "AAPL", valueInvested: 10000, percentage: 50, quantity: 50 },
       { ticker: "TSM", valueInvested: 5000, percentage: 25, quantity: 100 },
-      { ticker: "CHINA", valueInvested: 3000, percentage: 15, quantity: 150 },
-      { ticker: "OTHER", valueInvested: 2000, percentage: 10, quantity: 200 },
+      { ticker: "CHINA", valueInvested: 3000, percentage: 25, quantity: 150 },
+      
     ]);
   },
   getAssetDependencies(): Promise<Dependency[]> {

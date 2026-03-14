@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { Alert, Box, CardContent, CircularProgress } from "@mui/material";
 import type { Dependency, GraphEdge, GraphNode } from "../../../sdk/interfaces";
 import { graph as graphSdk, assets as assetsSdk } from "../../../sdk";
-import GraphVisualization from "./components/GraphVisualization";
+import Graph from "./components/Graph";
+import TabWrapper from "../TabWrapper";
 
-const Graph = () => {
+const GraphTab = () => {
   const [nodes, setNodes] = useState<GraphNode[]>([]);
   const [edges, setEdges] = useState<GraphEdge[]>([]);
   const [dependencies, setDependencies] = useState<Dependency[]>([]);
@@ -37,36 +37,10 @@ const Graph = () => {
   }, []);
 
   return (
-    <CardContent className="overflow-hidden" sx={{ p: 0 }}>
-      <Box
-        sx={{
-          height: 560,
-          position: "relative",
-          background: "#f8fafc",
-        }}
-      >
-        {loading && (
-          <Box className="absolute items-center justify-center flex w-full h-full">
-            <CircularProgress />
-          </Box>
-        )}
-
-        {!loading && error && (
-          <Box sx={{ p: 3 }}>
-            <Alert severity="error">{error}</Alert>
-          </Box>
-        )}
-
-        {!loading && !error && (
-          <GraphVisualization
-            nodes={nodes}
-            edges={edges}
-            dependencies={dependencies}
-          />
-        )}
-      </Box>
-    </CardContent>
+    <TabWrapper loading={loading} error={error}>
+      <Graph nodes={nodes} edges={edges} dependencies={dependencies} />
+    </TabWrapper>
   );
 };
 
-export default Graph;
+export default GraphTab;

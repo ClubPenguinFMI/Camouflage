@@ -9,77 +9,10 @@ import type {
 } from "../../../../sdk/interfaces";
 import { buildGraphData } from "../../../../utils/graph";
 import GraphOptions from "./GraphOptions";
-import { Typography } from "@mui/material";
+import Dependencies from "./Dependencies";
 const DEFAULT_ZOOM = 0.8;
 
-const DependencyItem = ({
-  dependency,
-  focusDependency,
-}: {
-  dependency: Dependency;
-  focusDependency: (id: string) => void;
-}) => {
-  const percentageColor = useMemo(() => {
-    return dependency.percentage >= 75
-      ? "error.main"
-      : dependency.percentage >= 50
-        ? "warning.main"
-        : "success.main";
-  }, [dependency.percentage]);
-
-  return (
-    <Box
-      className="py-2 flex items-center justify-between cursor-pointer"
-      onClick={() => focusDependency(dependency.id)}
-    >
-      <Typography variant="body2">{dependency.ticker}</Typography>
-      <Typography variant="body1" fontWeight="bold" color={percentageColor}>
-        {dependency.percentage} %
-      </Typography>
-    </Box>
-  );
-};
-const Dependencies = ({
-  dependencies,
-  focusDependency,
-}: {
-  dependencies: Dependency[];
-  focusDependency: (id: string) => void;
-}) => {
-  return (
-    <Box
-      className="bg-white p-2 flex flex-col"
-      sx={{
-        flex: 1,
-        minHeight: 0,
-        overflowY: "auto",
-      }}
-    >
-      <h3 className="text-lg font-semibold border-b border-gray-400">
-        Dependencies
-      </h3>
-
-      {dependencies.length === 0 ? (
-        <Typography variant="body2" color="text.secondary">
-          No dependencies found.
-        </Typography>
-      ) : (
-        <div className="flex flex-col gap-1 divide-y divide-gray-200">
-          {dependencies
-            .sort((a, b) => b.percentage - a.percentage)
-            .map((dependency) => (
-              <DependencyItem
-                key={dependency.id}
-                dependency={dependency}
-                focusDependency={focusDependency}
-              />
-            ))}
-        </div>
-      )}
-    </Box>
-  );
-};
-const GraphVisualization = ({
+const Graph = ({
   nodes,
   edges,
   dependencies,
@@ -161,4 +94,4 @@ const GraphVisualization = ({
   );
 };
 
-export default GraphVisualization;
+export default Graph;

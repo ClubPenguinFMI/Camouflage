@@ -1,5 +1,6 @@
 import TabsSwitcher from "../components/TabsSwitcher";
-import Graph from "../components/Graph";
+import GraphTab from "../components/GraphTab";
+import ChartTab from "../components/ChartTab";
 
 export default function DashboardPage() {
   return (
@@ -7,11 +8,11 @@ export default function DashboardPage() {
       items={[
         {
           label: "Portfolio",
-          content: <div>TODO</div>,
+          content: <ChartTab />,
         },
         {
           label: "Dependencies",
-          content: <Graph />,
+          content: <GraphTab />,
         },
       ]}
     />
