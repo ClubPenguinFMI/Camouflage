@@ -1,5 +1,9 @@
 import type { Asset } from "../sdk/interfaces";
-import type { AssetChartItem } from "../assets/Chart";
+export interface AssetChartItem {
+  id: string;
+  label: string;
+  value: number;
+}
 
 export function mapAssetsToPieChartData(assets: Asset[]): AssetChartItem[] {
   return assets.map((asset) => ({

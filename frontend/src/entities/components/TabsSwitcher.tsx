@@ -2,6 +2,7 @@ import { useState } from "react";
 import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
+import { Card } from "@mui/material";
 
 export type TabsItem = {
   label: string;
@@ -20,7 +21,7 @@ export default function TabsSwitcher({
   const [value, setValue] = useState(initialTab);
 
   return (
-    <Box sx={{ width: "100%" }}>
+    <Box className="w-full h-full">
       <Tabs
         value={value}
         onChange={(_, newValue) => setValue(newValue)}
@@ -30,8 +31,9 @@ export default function TabsSwitcher({
           <Tab key={index} label={item.label} />
         ))}
       </Tabs>
-
-      <Box sx={{ mt: 2 }}>{items[value]?.content}</Box>
+      <Card elevation={0}>
+        <Box className="overflow-hidden">{items[value]?.content}</Box>
+      </Card>
     </Box>
   );
 }
