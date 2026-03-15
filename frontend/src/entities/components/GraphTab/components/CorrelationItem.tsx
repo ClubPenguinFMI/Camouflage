@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { Box } from "@mui/material";
 import { Typography } from "@mui/material";
+import { calculateCorrelationColor } from "../../../../utils/graph";
 
 const CorrelationItem = ({
   correlations,
@@ -9,13 +10,10 @@ const CorrelationItem = ({
   correlations: { percentage: number; ticker: string };
   focusDependency: (ticker: string) => void;
 }) => {
-  const percentageColor = useMemo(() => {
-    return correlations.percentage >= 75
-      ? "error.main"
-      : correlations.percentage >= 50
-        ? "warning.main"
-        : "success.main";
-  }, [correlations.percentage]);
+  const percentageColor = useMemo(
+    () => calculateCorrelationColor(correlations.percentage),
+    [correlations.percentage]
+  );
 
   return (
     <Box

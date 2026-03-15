@@ -35,7 +35,11 @@ const Graph = ({
     nvlRef.current?.fit?.([focusNodeId]);
   }, [focusNodeId]);
 
-  const graphData = useMemo(() => buildGraphData(nodes, edges), [nodes, edges]);
+  const portfolioValues: string[] = useMemo(() => {
+    return Array.from(portfolioCorrelation.keys());
+  }, [portfolioCorrelation]);
+
+  const graphData = useMemo(() => buildGraphData(nodes, edges, portfolioValues), [nodes, edges]);
 
   const options: NvlOptions = {
     layout: ForceDirectedLayoutType,

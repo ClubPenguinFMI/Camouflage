@@ -18,24 +18,17 @@ function formatEdgeLabel(type?: string) {
   }
 }
 
-const NODE_COLORS = [
-  "#ef4444",
-  "#3b82f6",
-  "#22c55e",
-  "#f59e0b",
-  "#a855f7",
-  "#ec4899",
-];
 export function buildGraphData(
   nodes: GraphNode[],
   edges: GraphEdge[],
+  portfolioValues: string[]
 ): { nodes: Node[]; edges: Relationship[] } {
   return {
     nodes: nodes.map((node) => ({
       id: node.properties.ticker as string,
       caption: node.properties.ticker as string,
       color: node.color,
-      size: 32,
+      size: 32 + (portfolioValues.includes(node.properties.ticker as string) ? 20 : 0),
     })),
     edges: edges.map((edge) => ({
       id: edge.id,
@@ -46,25 +39,32 @@ export function buildGraphData(
   };
 }
 
-export const setColorsForNodes = (nodes: GraphNode[]) => {
-  const groupedByIndustry: Record<string, GraphNode[]> = {};
+export const setColorsForNodes = (
+  nodes: GraphNode[],
+  correlations: Map<string, number>,
+  portfolioCorrelations: Map<string, number>
+): GraphNode[] => {
+  return nodes.map(node => {
+    const ticker = node.properties.ticker as string;
+    const correlation =
+      correlations.get(ticker) ?? portfolioCorrelations.get(ticker) ?? 0;
 
-  nodes.forEach((node) => {
-    const industry = node.properties.sector as string || "Unknown";
-    if (!groupedByIndustry[industry]) {
-      groupedByIndustry[industry] = [];
-    }
-    groupedByIndustry[industry].push(node);
+    return {
+      ...node,
+      color: calculateCorrelationColor(correlation * 100)
+    };
   });
-
-  const normalized: GraphNode[] = [];
-  Object.values(groupedByIndustry).forEach((group, index) => {
-    const color = NODE_COLORS[index % NODE_COLORS.length];
-    group.forEach((node) => {
-      normalized.push({ ...node, color });
-    });
-  });
-
-  return normalized;
 };
 
+
+export const calculateCorrelationColor = (percent: number): string => {
+  const clamped = Math.max(0, Math.min(100, percent));
+
+  const red = 255;
+  const green = Math.round(200 * (1 - clamped / 100));
+  const blue = 50;
+
+  const toHex = (value: number) => value.toString(16).padStart(2, "0");
+
+  return `#${toHex(red)}${toHex(green)}${toHex(blue)}`;
+};

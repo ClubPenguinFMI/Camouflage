@@ -15,7 +15,7 @@ const GraphTab = ({
   const [correlations, setCorrelations] = useState<Map<string, number>>(
     new Map()
   );
-  const [portfolioCorrelation, setPortfolioCorrelation] = useState<Map<string, number>>(
+  const [portfolioCorrelations, setPortfolioCorrelation] = useState<Map<string, number>>(
     new Map()
   );
 
@@ -33,17 +33,24 @@ const GraphTab = ({
         const graphData = await graphSdk.getGraphData(assets);
         console.log("Graph data received:", graphData);
 
-        setNodes(setColorsForNodes(graphData.nodes) ?? []);
-        setEdges(graphData.edges ?? []);
-        setCorrelations(
+        const correlationsMap =
           graphData.correlations instanceof Map
             ? graphData.correlations
-            : new Map(Object.entries(graphData.correlations ?? {}))
-        );
-        setPortfolioCorrelation(
-          graphData.portfolioCorrelation instanceof Map
-            ? graphData.portfolioCorrelation
-            : new Map(Object.entries(graphData.portfolioCorrelation ?? {})))
+            : new Map(
+              Object.entries(graphData.correlations ?? {}) as [string, number][]
+            );
+
+        const portfolioCorrelationsMap =
+          graphData.portfolioCorrelations instanceof Map
+            ? graphData.portfolioCorrelations
+            : new Map(
+              Object.entries(graphData.portfolioCorrelations ?? {}) as [string, number][]
+            );
+
+        setNodes(setColorsForNodes(graphData.nodes, correlationsMap, portfolioCorrelationsMap));
+        setEdges(graphData.edges ?? []);
+        setCorrelations(correlationsMap);
+        setPortfolioCorrelation(portfolioCorrelationsMap);
       } catch (err) {
         setError(err instanceof Error ? err.message : "Something went wrong");
       } finally {
@@ -56,7 +63,7 @@ const GraphTab = ({
 
   return (
     <TabWrapper loading={loading} error={error}>
-      <Graph nodes={nodes} edges={edges} correlations={correlations} portfolioCorrelation={portfolioCorrelation} />
+      <Graph nodes={nodes} edges={edges} correlations={correlations} portfolioCorrelation={portfolioCorrelations} />
     </TabWrapper>
   );
 };
