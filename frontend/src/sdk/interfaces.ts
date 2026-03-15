@@ -1,42 +1,30 @@
-import type { Relationship } from "@neo4j-nvl/base/dist/types/types/graph-element";
-
-export interface Asset {
-  ticker: string;
+export interface Portfolio {
+  ticker: {
+    shortName: string;
+    longName: string | undefined;
+  };
   valueInvested: number;
   percentage: number;
   quantity: number;
 }
 
-export enum EdgeType {
-  DEPENDS_ON = "depends_on",
-  OWNS = "owns",
-  SUPPLIES = "supplies",
-  EXPOSED_TO = "exposed_to",
+
+export class GraphNode {
+  id!: string;
+  name!: string;
+  properties!: Record<string, unknown>;
 }
 
-export interface GraphEdge {
-  id: string;
-  source: string;
-  target: string;
-  type?: EdgeType;
+export class GraphEdge {
+  id!: string;
+  source!: string;
+  target!: string;
+  type!: string;
+  properties!: Record<string, unknown>;
 }
 
-export interface GraphNode {
-  id: string;
-  name: string;
-  properties: {
-    ticker: string;
-    name: string;
-    sector: string;
-  };
-}
-export interface GraphData {
-  nodes: GraphNode[];
-  edges: Relationship[];
-}
-
-export interface Dependency {
-  id: string;
-  ticker: string;
-  percentage: number;
+export class GraphResponse {
+  nodes!: GraphNode[];
+  edges!: GraphEdge[];
+  correlations!: Map<string, number>;
 }

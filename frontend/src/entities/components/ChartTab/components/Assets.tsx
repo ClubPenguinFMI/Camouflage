@@ -1,9 +1,9 @@
-import type { Asset } from "../../../../sdk/interfaces";
+import type { Portfolio } from "../../../../sdk/interfaces";
 import { Box } from "@mui/material";
 import AssetsChart from "./AssetsChart";
 import AssetsList from "./AssetsList";
 
-const Assets = ({ assets }: { assets: Asset[] }) => {
+const Assets = ({ assets }: { assets: Portfolio[] }) => {
   return (
     <Box
       sx={{

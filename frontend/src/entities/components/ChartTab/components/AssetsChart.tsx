@@ -2,10 +2,11 @@ import {
   PieChart,
   Pie,
   Cell,
-  Tooltip,
+  Tooltip as CharTooltip,
   ResponsiveContainer,
 } from "recharts";
-import type { Asset } from "../../../../sdk/interfaces";
+import type { Portfolio } from "../../../../sdk/interfaces";
+import { Box, Typography, Tooltip } from "@mui/material";
 
 const COLORS = [
   "#1976d2",
@@ -18,10 +19,11 @@ const COLORS = [
   "#455a64",
 ];
 
-const AssetsChart = ({ assets }: { assets: Asset[] }) => {
+const AssetsChart = ({ assets }: { assets: Portfolio[] }) => {
   const chartData = assets.map((asset) => ({
-    name: asset.ticker,
-    value: asset.percentage,
+    shortName: asset.ticker.shortName,
+    longName: asset.ticker.longName,
+    value: Number(asset.percentage.toFixed(2)),
     invested: asset.valueInvested,
     quantity: asset.quantity,
   }));
@@ -31,35 +33,90 @@ const AssetsChart = ({ assets }: { assets: Asset[] }) => {
   }
 
   return (
-    <div style={{ width: "100%", height: 520 }}>
-      <ResponsiveContainer>
-        <PieChart>
-          <Pie
-            data={chartData}
-            dataKey="value"
-            nameKey="name"
-            cx="50%"
-            cy="50%"
-            outerRadius={180}
-            label={({ name, value }) => `${name}: ${value}%`}
-          >
-            {chartData.map((entry, index) => (
-              <Cell
-                key={`cell-${entry.name}`}
-                fill={COLORS[index % COLORS.length]}
-              />
-            ))}
-          </Pie>
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        width: "100%",
+        height: 520,
+      }}
+    >
+      <Box
+        sx={{
+          width: 420,
+          height: "100%",
+          flexShrink: 0,
+        }}
+      >
+        <ResponsiveContainer width="100%" height="100%">
+          <PieChart>
+            <Pie
+              data={chartData}
+              dataKey="value"
+              nameKey="name"
+              cx="50%"
+              cy="50%"
+              innerRadius={90}
+              outerRadius={170}
+            >
+              {chartData.map((entry, index) => (
+                <Cell
+                  key={`cell-${entry.shortName}`}
+                  fill={COLORS[index % COLORS.length]}
+                />
+              ))}
+            </Pie>
 
-          <Tooltip
-            formatter={(value, _name, props) => [
-              `${value}%`,
-              props.payload.name,
-            ]}
-          />
-        </PieChart>
-      </ResponsiveContainer>
-    </div>
+            <CharTooltip
+              formatter={(value, _name, props) => [
+                `${value}%`,
+                props.payload.shortName,
+              ]}
+            />
+          </PieChart>
+        </ResponsiveContainer>
+      </Box>
+
+      <Box
+        sx={{
+          ml: 6,
+          width: 280,
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr",
+          columnGap: 2,
+          rowGap: 1,
+          alignContent: "center",
+        }}
+      >
+        {chartData.map((entry, index) => (
+          <Box
+            key={entry.shortName}
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: 1,
+              minWidth: 0,
+            }}
+          >
+            <Box
+              sx={{
+                width: 10,
+                height: 10,
+                borderRadius: "50%",
+                backgroundColor: COLORS[index % COLORS.length],
+                flexShrink: 0,
+              }}
+            />
+            <Tooltip title={entry.longName} placement="top" disableInteractive={!entry.longName}>
+              <Typography variant="body2" noWrap>
+                {entry.shortName} — {entry.value}%
+              </Typography>
+            </Tooltip>
+          </Box>
+        ))}
+      </Box>
+    </Box>
   );
 };
 

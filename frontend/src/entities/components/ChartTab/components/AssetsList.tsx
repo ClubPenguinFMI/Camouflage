@@ -1,8 +1,8 @@
-import type { Asset } from "../../../../sdk/interfaces";
+import type { Portfolio } from "../../../../sdk/interfaces";
 import { Box, Typography } from "@mui/material";
 import AssetItem from "./AssetItem";
 
-const AssetsList = ({ assets }: { assets: Asset[] }) => {
+const AssetsList = ({ assets }: { assets: Portfolio[] }) => {
   return (
     <Box
       className="bg-white p-2 flex flex-col"

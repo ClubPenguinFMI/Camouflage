@@ -1,34 +1,8 @@
-import { useEffect, useState } from "react";
-import type { Asset } from "../../../sdk/interfaces";
-import { assets as assetsSdk } from "../../../sdk";
+import type { Portfolio } from "../../../sdk/interfaces";
 import TabWrapper from "../TabWrapper";
 import Assets from "./components/Assets";
 
-const ChartTab = () => {
-  const [assets, setAssets] = useState<Asset[]>([]);
-
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-    const loadData = async () => {
-      try {
-        setLoading(true);
-        setError("");
-
-        const [assetsData] = await Promise.all([assetsSdk.getAssets()]);
-
-        setAssets(assetsData);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "Something went wrong");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    void loadData();
-  }, []);
-
+const ChartTab = ({ assets, loading, error }: { assets: Portfolio[]; loading: boolean; error: string }) => {
   return (
     <TabWrapper loading={loading} error={error}>
       {assets.length === 0 ? (

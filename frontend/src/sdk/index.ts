@@ -1,66 +1,24 @@
-import {
-  EdgeType,
-  type Asset,
-  type Dependency,
-  type GraphEdge,
-  type GraphNode,
-} from "./interfaces";
+import { type Portfolio, GraphResponse } from "./interfaces";
+
+
+const BASE_BACKEND_URL = `http://localhost:${import.meta.env.VITE_URL_PORT}`;
 
 export const assets = {
-  getAssets(): Promise<Asset[]> {
-    return Promise.resolve([
-      { ticker: "AAPL", valueInvested: 10000, percentage: 50, quantity: 50 },
-      { ticker: "TSM", valueInvested: 5000, percentage: 25, quantity: 100 },
-      { ticker: "CHINA", valueInvested: 3000, percentage: 25, quantity: 150 },
-      
-    ]);
-  },
-  getAssetDependencies(): Promise<Dependency[]> {
-    return Promise.resolve([
-      { id: "n1", ticker: "AAPL", percentage: 50 },
-      { id: "n2", ticker: "TSM", percentage: 25 },
-      { id: "n3", ticker: "CHINA", percentage: 15 },
-    ]);
+  async getAssets(): Promise<Portfolio[]> {
+    return Promise.resolve(
+      await fetch(`${BASE_BACKEND_URL}/portfolio/precomputed`).then((res) => res.json())
+    );
   },
 };
 
 export const graph = {
-  getGraphData(): Promise<{ nodes: GraphNode[]; edges: GraphEdge[] }> {
-    const nodes: GraphNode[] = [
-      {
-        id: "n1",
-        name: "Apple",
-        properties: {
-          ticker: "AAPL",
-          name: "Apple Inc.",
-          sector: "Technology",
-        },
+  async getGraphData(assets: Portfolio[]): Promise<GraphResponse> {
+    return Promise.resolve(await fetch(`${BASE_BACKEND_URL}/graph`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-      {
-        id: "n2",
-        name: "TSMC",
-        properties: {
-          ticker: "TSM",
-          name: "Taiwan Semiconductor Manufacturing Company",
-          sector: "Technology",
-        },
-      },
-      {
-        id: "n3",
-        name: "China exposure",
-        properties: {
-          ticker: "CHINA",
-          name: "China Exposure",
-          sector: "Emerging Markets",
-        },
-      },
-    ];
-
-    const edges: GraphEdge[] = [
-      { id: "e1", source: "n1", target: "n2", type: EdgeType.DEPENDS_ON },
-      { id: "e2", source: "n2", target: "n3", type: EdgeType.EXPOSED_TO },
-    ];
-
-    return Promise.resolve({ nodes, edges });
+      body: JSON.stringify(assets),
+    }).then((res) => res.json()));
   },
 };

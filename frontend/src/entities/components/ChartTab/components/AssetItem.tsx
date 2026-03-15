@@ -1,9 +1,10 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import type { Asset } from "../../../../sdk/interfaces";
+import type { Portfolio } from "../../../../sdk/interfaces";
 import { useMemo } from "react";
+import Tooltip from "@mui/material/Tooltip";
 
-const AssetItem = ({ asset }: { asset: Asset }) => {
+const AssetItem = ({ asset }: { asset: Portfolio }) => {
   const percentageColor = useMemo(
     () => (asset.percentage > 50 ? "error.main" : "primary.main"),
     [asset.percentage],
@@ -11,7 +12,7 @@ const AssetItem = ({ asset }: { asset: Asset }) => {
 
   return (
     <Box className="flex items-center gap-2 py-1">
-      <Box className="flex items-center justify-between w-4/5">
+      <Box className="flex items-center justify-between w-[70%]">
         <Box className="flex items-center gap-2">
           <Box
             className="rounded-full"
@@ -21,18 +22,20 @@ const AssetItem = ({ asset }: { asset: Asset }) => {
               backgroundColor: "primary.main",
             }}
           />
-          <Typography variant="body2" color="text.primary">
-            {asset.ticker}
-          </Typography>
+          <Tooltip title={asset.ticker.longName} placement="top" disableInteractive={!asset.ticker.longName}>
+            <Typography variant="body2" color="text.primary">
+              {asset.ticker.shortName}
+            </Typography>
+          </Tooltip>
         </Box>
 
         <Typography variant="body2" color="text.secondary">
-          €{asset.valueInvested}
+          €{Number(asset.valueInvested.toFixed(2))}
         </Typography>
       </Box>
-      <Box className="flex items-center justify-end w-1/5">
+      <Box className="flex items-center justify-end">
         <Typography variant="body1" fontWeight="bold" color={percentageColor}>
-          {asset.percentage} %
+          {Number(asset.percentage.toFixed(2))} %
         </Typography>
       </Box>
     </Box>

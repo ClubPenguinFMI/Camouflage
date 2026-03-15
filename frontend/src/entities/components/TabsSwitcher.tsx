@@ -22,15 +22,17 @@ export default function TabsSwitcher({
 
   return (
     <Box className="w-full h-full">
-      <Tabs
-        value={value}
-        onChange={(_, newValue) => setValue(newValue)}
-        variant="fullWidth"
-      >
-        {items.map((item, index) => (
-          <Tab key={index} label={item.label} />
-        ))}
-      </Tabs>
+      <Box className="border-b border-gray-300 bg-gray-100">
+        <Tabs
+          value={value}
+          onChange={(_, newValue) => setValue(newValue)}
+          variant="fullWidth"
+        >
+          {items.map((item, index) => (
+            <Tab key={index} label={item.label} />
+          ))}
+        </Tabs>
+      </Box>
 
       <Card elevation={0}>
         <Box className="overflow-hidden">{items[value]?.content}</Box>

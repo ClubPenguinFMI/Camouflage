@@ -1,27 +1,26 @@
 import { useMemo } from "react";
 import { Box } from "@mui/material";
-import type { Dependency } from "../../../../sdk/interfaces";
 import { Typography } from "@mui/material";
 
-const DependencyItem = ({
-  dependency,
+const CorrelationItem = ({
+  correlations,
   focusDependency,
 }: {
-  dependency: Dependency;
-  focusDependency: (id: string) => void;
+  correlations: { percentage: number; ticker: string };
+  focusDependency: (ticker: string) => void;
 }) => {
   const percentageColor = useMemo(() => {
-    return dependency.percentage >= 75
+    return correlations.percentage >= 75
       ? "error.main"
-      : dependency.percentage >= 50
+      : correlations.percentage >= 50
         ? "warning.main"
         : "success.main";
-  }, [dependency.percentage]);
+  }, [correlations.percentage]);
 
   return (
     <Box
       className="py-2 flex items-center justify-between cursor-pointer"
-      onClick={() => focusDependency(dependency.id)}
+      onClick={() => focusDependency(correlations.ticker)}
     >
       <Box className="flex items-center gap-2">
         <Box
@@ -32,13 +31,13 @@ const DependencyItem = ({
             backgroundColor: percentageColor,
           }}
         />
-        <Typography variant="body2">{dependency.ticker}</Typography>
+        <Typography variant="body2">{correlations.ticker}</Typography>
       </Box>
       <Typography variant="body1" fontWeight="bold" color={percentageColor}>
-        {dependency.percentage} %
+        {correlations.percentage} %
       </Typography>
     </Box>
   );
 };
 
-export default DependencyItem;
+export default CorrelationItem;
