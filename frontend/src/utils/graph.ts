@@ -58,6 +58,7 @@ export const setColorsForNodes = (
 
 
 export const calculateCorrelationColor = (percent: number): string => {
+  percent = Math.abs(percent)
   const clamped = Math.max(0, Math.min(100, percent));
 
   const red = 255;
