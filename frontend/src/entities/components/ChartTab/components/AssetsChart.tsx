@@ -110,7 +110,7 @@ const AssetsChart = ({ assets }: { assets: Portfolio[] }) => {
             />
             <Tooltip title={entry.longName} placement="top" disableInteractive={!entry.longName}>
               <Typography variant="body2" noWrap>
-                {entry.shortName} — {entry.value}%
+                {entry.shortName} - {Math.abs(entry.value).toFixed(0)}%
               </Typography>
             </Tooltip>
           </Box>

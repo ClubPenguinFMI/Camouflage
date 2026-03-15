@@ -30,12 +30,12 @@ const AssetItem = ({ asset }: { asset: Portfolio }) => {
         </Box>
 
         <Typography variant="body2" color="text.secondary">
-          €{Number(asset.valueInvested.toFixed(2))}
+          €{Number(Math.abs(asset.valueInvested).toFixed(2))}
         </Typography>
       </Box>
       <Box className="flex items-center justify-end">
         <Typography variant="body1" fontWeight="bold" color={percentageColor}>
-          {Number(asset.percentage.toFixed(2))} %
+          {Number(Math.abs(asset.percentage).toFixed(2))} %
         </Typography>
       </Box>
     </Box>

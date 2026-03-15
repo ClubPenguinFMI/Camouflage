@@ -15,7 +15,7 @@ const Correlations = ({
     <ItemsList itemsCount={correlations.size} title={title}>
       <>
         {Array.from(correlations)
-          .sort((a, b) => b[1] - a[1])
+          .sort((a, b) => Math.abs(b[1]) - Math.abs(a[1]))
           .map(([ticker, percentage]) => (
             <CorrelationItem
               key={ticker}

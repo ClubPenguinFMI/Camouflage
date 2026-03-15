@@ -32,7 +32,7 @@ const CorrelationItem = ({
         <Typography variant="body2">{correlations.ticker}</Typography>
       </Box>
       <Typography variant="body1" fontWeight="bold" color={percentageColor}>
-        {correlations.percentage} %
+        {Math.abs(correlations.percentage).toFixed(2)} %
       </Typography>
     </Box>
   );
