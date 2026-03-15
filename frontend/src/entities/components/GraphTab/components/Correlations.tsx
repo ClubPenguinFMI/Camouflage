@@ -19,7 +19,7 @@ const Correlations = ({
           .map(([ticker, percentage]) => (
             <CorrelationItem
               key={ticker}
-              correlations={{ ticker, percentage }}
+              correlations={{ ticker, percentage: parseFloat((percentage * 100).toFixed(2)) }}
               focusDependency={focusNode}
             />
           ))}</>

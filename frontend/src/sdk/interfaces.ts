@@ -26,6 +26,7 @@ export class GraphResponse {
   nodes!: GraphNode[];
   edges!: GraphEdge[];
   correlations!: Map<string, number>;
+  portfolioCorrelation!: Map<string, number>;
 }
 
 export type Credentials = {

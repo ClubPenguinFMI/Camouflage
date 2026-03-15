@@ -15,10 +15,12 @@ const Graph = ({
   nodes,
   edges,
   correlations,
+  portfolioCorrelation,
 }: {
   nodes: GraphNode[];
   edges: GraphEdge[];
   correlations: Map<string, number>;
+  portfolioCorrelation: Map<string, number>;
 }) => {
   console.log("Rendering Graph with nodes:", nodes.length, "edges:", edges.length, "correlations:", correlations.size);
   const [zoom, setZoom] = useState(DEFAULT_ZOOM);
@@ -68,8 +70,8 @@ const Graph = ({
           focusNode={setFocusNodeId}
         />
         <Correlations
-          title="Other Correlations"
-          correlations={correlations}
+          title="Portfolio Correlations"
+          correlations={portfolioCorrelation}
           focusNode={setFocusNodeId}
         />
       </Box>
