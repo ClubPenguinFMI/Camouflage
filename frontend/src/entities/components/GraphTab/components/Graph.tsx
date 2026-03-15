@@ -63,6 +63,12 @@ const Graph = ({
       >
         {graphData.nodes.length !== 0 && <GraphOptions setZoom={setZoom} />}
         <Correlations
+          title="Correlations"
+          correlations={correlations}
+          focusNode={setFocusNodeId}
+        />
+        <Correlations
+          title="Other Correlations"
           correlations={correlations}
           focusNode={setFocusNodeId}
         />
