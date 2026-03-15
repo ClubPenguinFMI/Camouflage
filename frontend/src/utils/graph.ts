@@ -34,7 +34,7 @@ export function buildGraphData(
       id: edge.id,
       from: edge.source,
       to: edge.target,
-      caption: formatEdgeLabel(edge.type),
+      caption: ""// formatEdgeLabel(edge.type),
     })),
   };
 }
