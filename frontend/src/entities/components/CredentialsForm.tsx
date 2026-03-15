@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useState, type Dispatch, type SetStateAction } from "react";
+import { useCallback, useState, type Dispatch, type SetStateAction } from "react";
 import {
+    Alert,
     Box,
     Button,
     Stack,
@@ -11,67 +12,72 @@ type Credentials = {
     token: string;
     secret: string;
 };
+
 import { assets as assetsSdk } from "../../sdk";
 import type { Portfolio } from "../../sdk/interfaces";
 
 type CredentialsFormProps = {
-    setAssets: Dispatch<SetStateAction<Portfolio[]>>
+    setAssets: Dispatch<SetStateAction<Portfolio[] | undefined>>;
 };
 
-const CredentialsForm = ({
-    setAssets
-}: CredentialsFormProps) => {
-    const [loading, setLoading] = useState(true);
+const CredentialsForm = ({ setAssets }: CredentialsFormProps) => {
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const [credentials, setCredentials] = useState<Credentials>({
         token: "",
         secret: "",
     });
 
-    useEffect(() => {
+    const handleChange =
+        useCallback(
+            (field: keyof Credentials) =>
+                (event: React.ChangeEvent<HTMLInputElement>) => {
+                    const value = event.target.value;
 
-    }, [credentials]);
+                    setCredentials((prev) => ({
+                        ...prev,
+                        [field]: value,
+                    }));
 
-    const handleChange = useCallback((field: keyof Credentials) =>
-        (event: React.ChangeEvent<HTMLInputElement>) => {
-            const value = event.target.value;
-
-            setCredentials((prev) => ({
-                ...prev,
-                [field]: value,
-            }));
-        }, [])
-
+                    if (error) {
+                        setError("");
+                    }
+                },
+            [error]
+        );
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+
         const loadData = async () => {
-            if (credentials) {
-                try {
-                    setLoading(true);
-                    setError("");
+            try {
+                setLoading(true);
+                setError("");
 
-                    const [assetsData] = await Promise.all([assetsSdk.getAssets(credentials)]);
+                const assetsData = await assetsSdk.getAssets(credentials);
 
-                    setAssets(assetsData);
-                } catch (err) {
-                    setError(err instanceof Error ? err.message : "Something went wrong");
-                } finally {
-                    setLoading(false);
+                if (!Array.isArray(assetsData)) {
+                    throw new Error("Invalid response from server. Check your credentials!");
                 }
+
+                setAssets(assetsData);
+            } catch (err) {
+                setError(err instanceof Error ? err.message : "Something went wrong");
+            } finally {
+                setLoading(false);
             }
         };
 
         void loadData();
     };
-
-    const isDisabled = !credentials.token.trim() || !credentials.secret.trim() || loading;
+    const isDisabled =
+        !credentials.token.trim() || !credentials.secret.trim() || loading;
 
     return (
         <Box
             component="form"
             onSubmit={handleSubmit}
-            className="max-w-md w-full mx-auto mt-20 "
+            className="max-w-md w-full mx-auto mt-20"
         >
             <Stack spacing={3}>
                 <Box className="justify-start flex flex-col items-center">
@@ -91,6 +97,7 @@ const CredentialsForm = ({
                     required
                     type="password"
                     disabled={loading}
+                    error={!!error}
                 />
 
                 <TextField
@@ -101,7 +108,10 @@ const CredentialsForm = ({
                     required
                     type="password"
                     disabled={loading}
+                    error={!!error}
                 />
+
+                {error && <Alert severity="error">{error}</Alert>}
 
                 <Button
                     type="submit"
@@ -110,7 +120,7 @@ const CredentialsForm = ({
                     disabled={isDisabled}
                     className="border-radius-3 font-weight-600"
                 >
-                    Submit
+                    {loading ? "Loading..." : "Submit"}
                 </Button>
             </Stack>
         </Box>

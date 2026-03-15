@@ -1,9 +1,7 @@
 import TabsSwitcher from "../components/TabsSwitcher";
 import GraphTab from "../components/GraphTab";
 import ChartTab from "../components/ChartTab";
-import { useEffect, useState } from "react";
-import type { Credentials, Portfolio } from "../../sdk/interfaces";
-import { assets as assetsSdk } from "../../sdk";
+import type { Portfolio } from "../../sdk/interfaces";
 
 export default function Dashboard({ assets }: { assets: Portfolio[] }) {
 

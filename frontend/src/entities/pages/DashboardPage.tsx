@@ -1,16 +1,12 @@
-import { useEffect, useState } from "react";
-import type { Credentials, Portfolio } from "../../sdk/interfaces";
+import { useState } from "react";
+import type { Portfolio } from "../../sdk/interfaces";
 import CredentialsForm from "../components/CredentialsForm";
 import Dashboard from "../components/Dashboard";
 import Box from "@mui/material/Box";
 
 export default function DashboardPage() {
-  const [credentials, setCredentials] = useState<Credentials | undefined>(undefined);
 
-  const [assets, setAssets] = useState<Portfolio[]>([]);
-
-
-
+  const [assets, setAssets] = useState<Portfolio[] | undefined>(undefined);
 
   return (
     <Box className="w-full h-full min-h-0">
