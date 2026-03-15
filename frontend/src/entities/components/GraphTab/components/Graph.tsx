@@ -47,7 +47,7 @@ const Graph = ({
       sx={{
         display: "flex",
         width: "100%",
-        height: 560,
+        height: "85vh",
       }}
     >
       <Box

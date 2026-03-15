@@ -9,7 +9,7 @@ const Assets = ({ assets }: { assets: Portfolio[] }) => {
       sx={{
         display: "flex",
         width: "100%",
-        height: 560,
+        height: "100%",
       }}
     >
       <Box
@@ -20,6 +20,7 @@ const Assets = ({ assets }: { assets: Portfolio[] }) => {
           display: "flex",
           flexDirection: "column",
           minHeight: 0,
+          height: "85vh",
         }}
       >
         <AssetsList assets={assets} />

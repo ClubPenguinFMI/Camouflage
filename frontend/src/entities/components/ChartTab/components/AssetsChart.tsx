@@ -21,8 +21,8 @@ const COLORS = [
 
 const AssetsChart = ({ assets }: { assets: Portfolio[] }) => {
   const chartData = assets.map((asset) => ({
-    shortName: asset.ticker.shortName,
-    longName: asset.ticker.longName,
+    shortName: asset.ticker,
+    longName: asset.name,
     value: Number(asset.percentage.toFixed(2)),
     invested: asset.valueInvested,
     quantity: asset.quantity,
@@ -39,7 +39,7 @@ const AssetsChart = ({ assets }: { assets: Portfolio[] }) => {
         alignItems: "center",
         justifyContent: "center",
         width: "100%",
-        height: 520,
+        height: "85vh",
       }}
     >
       <Box

@@ -4,7 +4,8 @@ import DashboardPage from "./entities/pages/DashboardPage";
 
 function App() {
   return (
-    <div className="min-h-screen w-screen text-white">
+    <div className="h-screen w-screen flex flex-col text-white overflow-hidden">
+
       <nav className="flex w-full items-center justify-between bg-gray-800 py-2 px-4">
         <div className="text-xl font-bold tracking-wide">Club Penguin</div>
 
@@ -23,7 +24,8 @@ function App() {
         </IconButton>
       </nav>
 
-      <main className="w-full">
+      <main className="w-full flex-1 min-h-0">
+
         <DashboardPage />
       </main>
     </div>

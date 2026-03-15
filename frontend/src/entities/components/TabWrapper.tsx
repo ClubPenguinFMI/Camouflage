@@ -11,10 +11,10 @@ const TabWrapper = ({
   error: string | null;
 }) => {
   return (
-    <CardContent className="overflow-hidden" sx={{ p: 0 }}>
+    <CardContent className="overflow-hidden w-full h-full" sx={{ p: 0 }}>
       <Box
         sx={{
-          height: 560,
+          height: "100%",
           position: "relative",
           background: "#f8fafc",
         }}

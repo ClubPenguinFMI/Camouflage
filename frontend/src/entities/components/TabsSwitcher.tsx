@@ -21,7 +21,8 @@ export default function TabsSwitcher({
   const [value, setValue] = useState(initialTab);
 
   return (
-    <Box className="w-full h-full">
+    <Box className="w-full h-full flex flex-col min-h-0">
+
       <Box className="border-b border-gray-300 bg-gray-100">
         <Tabs
           value={value}
@@ -34,7 +35,7 @@ export default function TabsSwitcher({
         </Tabs>
       </Box>
 
-      <Card elevation={0}>
+      <Card elevation={0} className="flex-1 min-h-0">
         <Box className="overflow-hidden">{items[value]?.content}</Box>
       </Card>
     </Box>

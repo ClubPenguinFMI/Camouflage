@@ -22,9 +22,9 @@ const AssetItem = ({ asset }: { asset: Portfolio }) => {
               backgroundColor: "primary.main",
             }}
           />
-          <Tooltip title={asset.ticker.longName} placement="top" disableInteractive={!asset.ticker.longName}>
+          <Tooltip title={asset.name} placement="top" disableInteractive={!asset.name}>
             <Typography variant="body2" color="text.primary">
-              {asset.ticker.shortName}
+              {asset.ticker}
             </Typography>
           </Tooltip>
         </Box>

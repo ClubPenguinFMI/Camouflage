@@ -24,8 +24,8 @@ export function buildGraphData(
 ): { nodes: Node[]; edges: Relationship[] } {
   return {
     nodes: nodes.map((node) => ({
-      id: node.id,
-      caption: node.name,
+      id: node.properties.ticker as string,
+      caption: node.properties.ticker as string,
       size: 32,
     })),
     edges: edges.map((edge) => ({
@@ -33,7 +33,6 @@ export function buildGraphData(
       from: edge.source,
       to: edge.target,
       caption: formatEdgeLabel(edge.type),
-      width: 2,
     })),
   };
 }

@@ -1,12 +1,12 @@
-import { type Portfolio, GraphResponse } from "./interfaces";
+import { type Credentials, type Portfolio, GraphResponse } from "./interfaces";
 
 
 const BASE_BACKEND_URL = `http://localhost:${import.meta.env.VITE_URL_PORT}`;
 
 export const assets = {
-  async getAssets(): Promise<Portfolio[]> {
+  async getAssets(creadentials: Credentials): Promise<Portfolio[]> {
     return Promise.resolve(
-      await fetch(`${BASE_BACKEND_URL}/portfolio/precomputed`).then((res) => res.json())
+      await fetch(`${BASE_BACKEND_URL}/portfolio/precomputed?token=${creadentials.token}&secret=${creadentials.secret}`).then((res) => res.json())
     );
   },
 };
