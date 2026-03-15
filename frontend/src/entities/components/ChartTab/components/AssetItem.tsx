@@ -19,7 +19,7 @@ const AssetItem = ({ asset }: { asset: Portfolio }) => {
             sx={{
               width: 12,
               height: 12,
-              backgroundColor: "primary.main",
+              backgroundColor: percentageColor,
             }}
           />
           <Tooltip title={asset.name} placement="top" disableInteractive={!asset.name}>

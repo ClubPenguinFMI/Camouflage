@@ -18,6 +18,14 @@ function formatEdgeLabel(type?: string) {
   }
 }
 
+const NODE_COLORS = [
+  "#ef4444",
+  "#3b82f6",
+  "#22c55e",
+  "#f59e0b",
+  "#a855f7",
+  "#ec4899",
+];
 export function buildGraphData(
   nodes: GraphNode[],
   edges: GraphEdge[],
@@ -26,6 +34,7 @@ export function buildGraphData(
     nodes: nodes.map((node) => ({
       id: node.properties.ticker as string,
       caption: node.properties.ticker as string,
+      color: node.color,
       size: 32,
     })),
     edges: edges.map((edge) => ({
@@ -36,3 +45,26 @@ export function buildGraphData(
     })),
   };
 }
+
+export const setColorsForNodes = (nodes: GraphNode[]) => {
+  const groupedByIndustry: Record<string, GraphNode[]> = {};
+
+  nodes.forEach((node) => {
+    const industry = node.properties.sector as string || "Unknown";
+    if (!groupedByIndustry[industry]) {
+      groupedByIndustry[industry] = [];
+    }
+    groupedByIndustry[industry].push(node);
+  });
+
+  const normalized: GraphNode[] = [];
+  Object.values(groupedByIndustry).forEach((group, index) => {
+    const color = NODE_COLORS[index % NODE_COLORS.length];
+    group.forEach((node) => {
+      normalized.push({ ...node, color });
+    });
+  });
+
+  return normalized;
+};
+

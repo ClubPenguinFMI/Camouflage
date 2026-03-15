@@ -3,6 +3,7 @@ import type { GraphEdge, GraphNode, Portfolio } from "../../../sdk/interfaces";
 import { graph as graphSdk } from "../../../sdk";
 import Graph from "./components/Graph";
 import TabWrapper from "../TabWrapper";
+import { setColorsForNodes } from "../../../utils/graph";
 
 const GraphTab = ({
   assets,
@@ -29,7 +30,9 @@ const GraphTab = ({
         const graphData = await graphSdk.getGraphData(assets);
         console.log("Graph data received:", graphData);
 
-        setNodes(graphData.nodes ?? []);
+
+
+        setNodes(setColorsForNodes(graphData.nodes) ?? []);
         setEdges(graphData.edges ?? []);
         setCorrelations(
           graphData.correlations instanceof Map

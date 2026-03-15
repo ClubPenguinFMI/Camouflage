@@ -11,6 +11,7 @@ export class GraphNode {
   id!: string;
   name!: string;
   properties!: Record<string, unknown>;
+  color?: string;
 }
 
 export class GraphEdge {

@@ -42,6 +42,7 @@ const Graph = ({
     disableWebWorkers: true,
     renderer: "canvas",
   };
+
   return (
     <Box
       sx={{
